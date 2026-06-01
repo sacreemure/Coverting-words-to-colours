@@ -9,3 +9,4 @@ torchcodec
 pyannote.audio
 paho-mqtt
 huggingface_hub
+torchvision
