@@ -2,7 +2,7 @@ streamlit
 numpy
 librosa
 soundfile
-transformers
+transformers==4.44.2
 torch
 torchaudio
 torchcodec
