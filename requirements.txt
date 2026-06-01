@@ -1,0 +1,11 @@
+streamlit
+numpy
+librosa
+soundfile
+transformers
+torch
+torchaudio
+torchcodec
+pyannote.audio
+paho-mqtt
+huggingface_hub
