@@ -149,9 +149,6 @@ st.sidebar.markdown("---")
 uploaded_audio = st.sidebar.file_uploader("Upload audio file", type=["wav", "mp3", "ogg", "flac", "m4a"])
 
 # Loading Transformers 
-@st.cache_resource
-def load_emotion_model():
-    return pipeline("audio-classification", model="superb/wav2vec2-base-superb-er", device=-1)
 
 @st.cache_resource
 def get_secret(name, default=None):
@@ -160,19 +157,30 @@ def get_secret(name, default=None):
     except Exception:
         return os.getenv(name, default)
 
+
+@st.cache_resource
+def load_emotion_model():
+    hf_token = get_secret("HF_TOKEN")
+    return pipeline(
+        "audio-classification",
+        model="superb/wav2vec2-base-superb-er",
+        device=-1,
+        token=hf_token
+    )
+
+
 @st.cache_resource
 def load_diarization_model():
     hf_token = get_secret("HF_TOKEN")
 
     if not hf_token:
-        raise RuntimeError(
-            "Missing HF_TOKEN. Add it in Streamlit Cloud secrets."
-        )
+        raise RuntimeError("Missing HF_TOKEN. Add it in Streamlit Cloud secrets.")
 
     return Pipeline.from_pretrained(
         "pyannote/speaker-diarization-community-1",
         token=hf_token
     )
+
 def render_ambient_light(rgb: tuple):
     r, g, b = rgb
     css = f"""
